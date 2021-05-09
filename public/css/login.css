@@ -1,0 +1,37 @@
+
+.main {
+  width: 340px;
+  margin: 0 auto;
+  margin-top: 40px;
+  color: #333;
+}
+
+.main .header {
+  text-align: center;
+  margin-bottom: 20px;
+  overflow: hidden;
+}
+
+.main .header h1 {
+  font-size: 26px;
+}
+
+.main form {
+  padding: 20px;
+  margin-bottom: 15px;
+  border: 1px solid #d8dee2;
+  border-radius: 5px;
+  background-color: #f6f8fa;
+}
+
+.main .message {
+  padding: 10px;
+  padding-bottom: 0;
+  border: 1px solid #d8dee2;
+  border-radius: 5px;
+}
+
+.main .alert-danger {
+  display: none;
+  text-align: center;
+}

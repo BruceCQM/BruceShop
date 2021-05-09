@@ -1,0 +1,8 @@
+.main {
+    width: 980px;
+    margin: 0 auto;
+}
+.main .inb {
+    float: right;
+    margin-bottom: 15px;
+}
