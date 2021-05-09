@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>管理员后台</title>
+  <link rel="shortcut icon" href="/public/img/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="/node_modules/layui/dist/css/layui.css">
+</head>
+
+<body>
+  <div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+      <div class="layui-logo" style="width: 165px;">管理员 {{ user.username }} </div>
+      <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item">
+          <a href="javascript:;">
+            <img src="/public/img/head.jpg" class="layui-nav-img">
+            {{ user.username }}
+          </a>
+        </li>
+        <li class="layui-nav-item"><a href="/logout">注销</a></li>
+      </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+      <div class="layui-side-scroll">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+          <li class="layui-nav-item"><a href="/delSalesman">销售人员ID列表&删除</a></li>
+          <li class="layui-nav-item"><a href="/addSalesman">销售人员ID增加&修改</a></li>
+          <li class="layui-nav-item"><a href="/checkRecords">各类商品销售记录</a></li>
+          <li class="layui-nav-item"><a href="/performance">各类商品销售业绩统计</a></li>
+          <li class="layui-nav-item"><a href="/loginStatus">各类用户历史登录状态</a></li>
+          <li class="layui-nav-item"><a href="/userPicture">用户画像</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="layui-body">
+      <div style="padding: 15px;">
+        <form id="add-form" class="layui-form layui-form-pane" action="">
+          <div class="layui-form-item">
+            <label class="layui-form-label">销售人员ID</label>
+            <div class="layui-input-block">
+              <input type="text" name="username" required  lay-verify="required" placeholder="前4位字母，最后1位数字1~9" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">口令</label>
+            <div class="layui-input-block">
+              <input type="text" name="password" required  lay-verify="required" placeholder="字母数字下划线4~12位" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <input type="text" name="hand" value="add" style="display: none;">
+          <div class="layui-form-item">
+            <div class="layui-input-block" style="margin-left: 10px;">
+              <button class="layui-btn">增加销售人员ID</button>
+              <button type="reset" class="layui-btn layui-btn-primary" id="add-reset">重置</button>
+            </div>
+          </div>
+        </form>
+        <br>
+        <br>
+        <form id="revise-form" class="layui-form layui-form-pane" action="">
+          <div class="layui-form-item">
+            <label class="layui-form-label">销售人员ID</label>
+            <div class="layui-input-block">
+              <input type="text" name="username" required  lay-verify="required" placeholder="请输入要修改的销售人员ID" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <div class="layui-form-item">
+            <label class="layui-form-label">新的口令</label>
+            <div class="layui-input-block">
+              <input type="text" name="password" required  lay-verify="required" placeholder="字母数字下划线4~12位" autocomplete="off" class="layui-input">
+            </div>
+          </div>
+          <input type="text" name="hand" value="revise" style="display: none;">
+          <div class="layui-form-item">
+            <div class="layui-input-block" style="margin-left: 10px;">
+              <button class="layui-btn">修改口令</button>
+              <button type="reset" class="layui-btn layui-btn-primary" id="revise-reset">重置</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="/node_modules/layui/dist/layui.js"></script>
+  <script>
+    //JavaScript代码区域
+    layui.use('element', function () {
+      var element = layui.element;
+
+    });
+  </script>
+  <script src="/node_modules/jquery/dist/jquery.js"></script>
+  <script>
+    //异步提交表单
+    $('#add-form').on('submit', function (e) {
+      e.preventDefault()
+      var formData = $(this).serialize()
+      $.ajax({
+          url: '/addSalesman',
+          type: 'post',
+          data: formData,
+          dataType: 'json',
+          success: function (data) {
+            var err_code = data.err_code
+            if (err_code === 1) {
+              window.alert('成功增加销售人员ID！')
+              $('#add-reset').click()
+            }else if(err_code === 0){
+              window.alert('ID或密码格式有误！')
+            }else if(err_code === 3){
+              window.alert('该ID已存在，请检查')
+            }
+          }
+        })
+    })
+    $('#revise-form').on('submit', function (e) {
+      e.preventDefault()
+      var formData = $(this).serialize()
+      $.ajax({
+          url: '/addSalesman',
+          type: 'post',
+          data: formData,
+          dataType: 'json',
+          success: function (data) {
+            var err_code = data.err_code
+            if (err_code === 1) {
+              window.alert('成功修改口令！')
+              $('#revise-reset').click()
+            }else if(err_code === 0){
+              window.alert('该销售人员ID不存在，请检查')
+            }else if(err_code === 3){
+              window.alert('密码格式有误！')
+            }
+          }
+        })
+    })
+  </script>
+</body>
+
+</html>

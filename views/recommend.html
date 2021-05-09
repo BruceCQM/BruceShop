@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>猜你喜欢-每次都不同</title>
+    <link rel="shortcut icon" href="/public/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/public/css/base.css">
+    <link rel="stylesheet" href="/public/css/common.css">
+    <link rel="stylesheet" href="/public/css/goods.css">
+    <style>
+        .header .search .text {
+            -webkit-box-sizing: content-box !important;
+            box-sizing: content-box !important;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="shortcut">
+        <div class="w">
+            <div class="fl">
+                <ul>
+                    <li>BruceShop欢迎您！</li>
+                    {{ if user }}
+                    <li>当前用户：{{ user.username }}</li>
+                    <li><a href="/logout" class="style-red">注销</a></li>
+                    {{ else }}
+                    <li>
+                        游客<a href="/login">请登录</a>
+                        <a href="/register" class="style-red">免费注册</a>
+                    </li>
+                    {{ /if }}
+                </ul>
+            </div>
+            <div class="fr">
+                <ul>
+                    <li><a href="/index">回到首页</a></li>
+                    <li class="spacer"></li>
+                    <li><a href="javasript:;">企业采购</a></li>
+                    <li class="spacer"></li>
+                    <li><a href="javasript:;">关注BruceShop</a></li>
+                    <li class="spacer"></li>
+                    <li><a href="javasript:;">客户服务</a></li>
+                    <li class="spacer"></li>
+                    <li><a href="javasript:;">网站导航</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="header w">
+        <!-- logo -->
+        <div class="logo">
+            <a href="/index" title="BruceShop">BruceShop</a>
+        </div>
+        <!-- search -->
+        <div class="search">
+            <input type="text" class="text" placeholder="这个搜索框也是装饰">
+            <button class="button">搜索</button>
+        </div>
+        <div class="shopcar">
+            <a href="/cart" id="myCart">我的购物车</a>
+        </div>
+    </div>
+
+    <form id="mobile-form" action="">
+        <div class="main">
+            <table class="table table-hover">
+                <thead>
+                    <th>#</th>
+                    <th>商品名称</th>
+                    <th>商品价格</th>
+                    <th>销售量</th>
+                    <th>加入购物车</th>
+                </thead>
+                <tbody>
+                    {{ each mobiles}}
+                    <tr>
+                        <td>{{ $value.id }}</td>
+                        <td>{{ $value.mobilename }}</td>
+                        <td>{{ $value.price }}</td>
+                        <td>{{ $value.sales }}</td>
+                        <td>
+                            <input type="checkbox" name="mobileID" value="{{ $value.id }}">
+                        </td>
+                    </tr>
+                    {{ /each }}
+                </tbody>
+            </table>
+            <div class="inb">
+                <input type="submit" value="确定加入购物车">
+                &nbsp;&nbsp;
+                <input type="reset" value="全部取消" id="cancel">
+            </div>
+        </div>
+    </form>
+</body>
+<script src="/node_modules/jquery/dist/jquery.js"></script>
+<script>
+    //异步提交表单
+    $('#mobile-form').on('submit', function (e) {
+        e.preventDefault()
+        var formData = $(this).serialize()
+        //mobileID=10002&mobileID=10003&mobileID=10004
+        $.ajax({
+            url: '/electrical',
+            type: 'post',
+            data: formData,
+            dataType: 'json',
+            success: function (data) {
+                var err_code = data.err_code
+                if (err_code === 1) {
+                    window.alert('成功加入购物车！')
+                    $('#cancel').click()
+                }
+                else if(err_code === 0){
+                    window.alert('需要先登录哦亲...')
+                }
+            }
+        })
+    })
+    $('#myCart').on('click', function (e) {
+        e.preventDefault()
+        $.ajax({
+            url: '/cartAjax',
+            type: 'get',
+            data: '',
+            dataType: 'json',
+            success: function (data) {
+                var err_code = data.err_code
+                if (err_code === 0) {
+                    window.alert('需要先登录哦亲...')
+                } else if (err_code === 1) {
+                    window.location.href = '/cart'
+                }
+            }
+        })
+    })
+</script>
+
+</html>

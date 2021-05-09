@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <title>销售人员后台-用户购买记录</title>
+  <link rel="shortcut icon" href="/public/img/favicon.ico" type="image/x-icon" />
+  <link rel="stylesheet" href="/node_modules/layui/dist/css/layui.css">
+</head>
+
+<body>
+  <div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+      <div class="layui-logo" style="width: 250px;">销售人员 {{ user.username }} 的商品管理页面</div>
+      <ul class="layui-nav layui-layout-right">
+        <li class="layui-nav-item">
+          <a href="javascript:;">
+            <img src="/public/img/head.jpg" class="layui-nav-img">
+            {{ user.username }}
+          </a>
+        </li>
+        <li class="layui-nav-item"><a href="/logout">注销</a></li>
+      </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+      <div class="layui-side-scroll">
+        <ul class="layui-nav layui-nav-tree" lay-filter="test">
+          <li class="layui-nav-item"><a href="/salesman">商品列表&删除</a></li>
+          <li class="layui-nav-item"><a href="/addProduct">添加&修改商品</a></li>
+          <li class="layui-nav-item"><a href="">用户购买记录</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="layui-body">
+      <!-- 内容主体区域 -->
+      <div style="padding: 15px;">
+        <form id="products-form" action="" style="overflow: hidden;">
+          <table class="layui-table">
+            <colgroup>
+              <col width="150">
+              <col width="200">
+              <col>
+            </colgroup>
+            <thead>
+              <tr>
+                <th>用户名</th>
+                <th>商品id</th>
+                <th>商品价格</th>
+                <th>购买数量</th>
+                <th>总价</th>
+                <th>购买时间</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{ each records }}
+              <tr>
+                <td>{{ $value.username }}</td>
+                <td>{{ $value.productID }}</td>
+                <td>{{ $value.price }}</td>
+                <td>{{ $value.amount }}</td>
+                <td>{{ $value.total }}</td>
+                <td>{{ $value.date }}</td>
+              </tr>
+              {{ /each }}
+            </tbody>
+          </table>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="/node_modules/layui/dist/layui.js"></script>
+  <script>
+    layui.use('element', function () {
+      var element = layui.element;
+
+    });
+  </script>
+</body>
+
+</html>

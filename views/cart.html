@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>购物车</title>
+    <link rel="shortcut icon" href="/public/img/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="/public/css/base.css">
+    <link rel="stylesheet" href="/public/css/common.css">
+    <link rel="stylesheet" href="/public/css/goods.css">
+</head>
+
+<body>
+    <div class="shortcut">
+        <div class="w">
+            <div class="fl">
+                <ul>
+                    <li>BruceShop欢迎您！</li>
+                    {{ if user }}
+                    <li>当前用户：{{ user.username }}</li>
+                    <li><a href="/logout" class="style-red">注销</a></li>
+                    {{ else }}
+                    <li>
+                        游客<a href="/login">请登录</a>
+                        <a href="/register" class="style-red">免费注册</a>
+                    </li>
+                    {{ /if }}
+                </ul>
+            </div>
+            <div class="fr">
+                <ul>
+                    <li><a href="/index">回到首页</a></li>
+                    <li class="spacer"></li>
+                    <li><a href="javasript:;">企业采购</a></li>
+                    <li class="spacer"></li>
+                    <li><a href="javasript:;">关注BruceShop</a></li>
+                    <li class="spacer"></li>
+                    <li><a href="javasript:;">客户服务</a></li>
+                    <li class="spacer"></li>
+                    <li><a href="javasript:;">网站导航</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div class="header w" style="height: 80px;">
+        <!-- logo -->
+        <div class="logo" style="top: 0;">
+            <a href="/index" title="BruceShop">BruceShop</a>
+        </div>
+        <h1 style="text-align: center;">{{ user.username }}的购物车</h1>
+    </div>
+
+    <form id="cart-form" action="/order" method="post">
+        <div class="main">
+            <table class="table table-hover">
+                <thead>
+                    <th>#</th>
+                    <th>商品名称</th>
+                    <th>商品价格</th>
+                    <th>购买数量</th>
+                    <th>我要购买</th>
+                </thead>
+                <tbody>
+                    {{ each carts}}
+                    <tr>
+                        <td>{{ $value.productID }}</td>
+                        <td>{{ $value.productName }}</td>
+                        <td>{{ $value.price }}</td>
+                        <td>{{ $value.amount }}</td>
+                        <td>
+                            <input type="checkbox" name="productID" value="{{ $value.productID }}">
+                        </td>
+                    </tr>
+                    {{ /each }}
+                </tbody>
+            </table>
+            <div class="inb">
+                <input type="submit" value="立即购买">
+                &nbsp;&nbsp;
+                <input type="reset" value="全部取消" id="cancel">
+            </div>
+        </div>
+    </form>
+</body>
+
+</html>
