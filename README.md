@@ -9,4 +9,4 @@ A simple business website based on NodeJS.
 若已安装pm2，可执行 `pm2 start app.js`命令启动持久node服务
 
 如果网站出错了，希望老师能告诉我，我重启服务器就能正常运行了，这是个未能解决的bug，谢谢老师！
-老师可以在QQ群里面找到我~
+我的QQ号是850611576，老师也可以在QQ群里面找到我~
